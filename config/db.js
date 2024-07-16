@@ -4,7 +4,7 @@ const connectDB = async () => {
     try {
         await mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/todos', {
             useNewUrlParser: true,
-            useUnifiedTopology: true
+            useUnifiedTopology: true, 
         });
         console.log('MongoDB connected');
     } catch (error) {
