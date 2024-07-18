@@ -1,0 +1,34 @@
+#Schemas and Indexes
+
+##Task Schema
+
+Collection: tasks
+
+Schema:
+{
+  id: { type: String, required: true, default: uuidv4 },
+  name: { type: String, required: true },
+  description: { type: String, required: true },
+  startDate: { type: Date, required: true },
+  endDate: { type: Date, required: false },
+  email: { type: String, required: true },
+  completed: { type: Boolean, default: false }
+  createdAt: { type: Date, default: Date.now },
+}
+
+Indexes:
+- { _id_: 1 }
+
+## Metric Schema
+
+Collection: metrics
+
+Schema:
+{
+  taskId: { type: mongoose.Schema.Types.ObjectId, ref: 'Task', required: true },
+  operation: { type: String, required: true, enum: ['create', 'update', 'delete'] },
+  timestamp: { type: Date, default: Date.now }
+}
+
+Indexes:
+- { _id_: 1 }
