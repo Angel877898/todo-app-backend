@@ -1,4 +1,5 @@
 const Task = require('../models/taskModel');
+const Metric = require('../models/metricModel');
 
 const getTasks = async (req, res) => {
     try {
@@ -20,6 +21,13 @@ const createTask = async (req, res) => {
     const task = new Task(req.body);
     try {
         const savedTask = await task.save();
+        // Save metric
+        const metric = new Metric({
+            taskId: savedTask._id,
+            operation: 'create'
+        });
+        await metric.save();
+        // Send response
         res.status(201).json({
             status: 'success',
             message: 'Task created successfully',
@@ -41,6 +49,13 @@ const updateTask = async (req, res) => {
             status: 'error',
             message: 'Task not found'
         });
+        // Save metric
+        const metric = new Metric({
+            taskId: id,
+            operation: 'update'
+        });
+        await metric.save();
+        // Send response
         res.status(200).json({
             status: 'success',
             message: 'Task updated successfully',
@@ -62,6 +77,13 @@ const deleteTask = async (req, res) => {
             status: 'error',
             message: 'Task not found'
         });
+        // Save metric
+        const metric = new Metric({
+            taskId: id,
+            operation: 'delete'
+        });
+        await metric.save();
+        // Send response
         res.status(200).json({
             status: 'success',
             message: 'Task deleted successfully'
